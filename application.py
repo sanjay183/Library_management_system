@@ -16,7 +16,7 @@ port=os.environ['RDS_PORT']
 with mysql.connector.connect(host=host,user=user,password=password,db=db) as conn:
     cursor=conn.cursor(buffered=True)
     cursor.execute('create table if not exists admin_users(id varchar(10) primary key,username varchar(15) ,mail varchar(50),password varchar(15))')
-    cursor.execute('create table if not exists student_users(id varchar(10) primary key,first_name varchar(15) , last_name varchar(15) ,gender varchar(5),branch varchar(5),email_id varchar(30) , phone_no varchar(12) ,password varchar(10))')
+    cursor.execute('create table if not exists student_users(id varchar(10) primary key,first_name varchar(15) , last_name varchar(15) ,gender varchar(5),branch var(5),email_id varchar(30) , phone_no varchar(12) ,password varchar(10))')
     cursor.execute('create table if not exists suggestions(id varchar(20), branch varchar(5), suggestion varchar(100))')
     cursor.execute('create table if not exists books(id varchar(10) primary key,title varchar(40),author varchar(30),genre varchar(15),copies int default 0,available_copies int default 0,rental_count int default 0,price int)')
     cursor.execute('create table if not exists rentals(id int auto_increment primary key,book_id varchar(40),user_id varchar(20),rental_date date ,due_date date ,fine decimal(8,2) default 0.00,status varchar(50) default "not_returned",foreign key (user_id) references student_users(id),foreign key (book_id) references books(id))')
