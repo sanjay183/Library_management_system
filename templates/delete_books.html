@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Delete Book</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='signup.css')}}">
+</head>
+<body>
+    <a href="/admin_home" class="back-button">Back</a>
+    <center><h1>Delete Book</h1></center>
+    <form action="/delete_books" method="POST">
+        <div class="align">    
+            {% if error_message %}
+                <h4>{{ error_message }}</h4>
+            {% elif success_message %}
+                <h4>{{ success_message }}</h4>
+            {% endif %}
+        </div>
+
+        <label for="bookid">Bookid:</label>
+        <input type="text" id="bookid" name="bookid" required><br>
+        <center><input type="submit" value="Delete"></center>
+    </form>
+</body>
+</html>

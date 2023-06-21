@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Admin page</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='page.css')}}">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href=''>Hello {{data}}</a>
+                <a href="/books/add" >Add book</a>
+                <a href="/books/display">All books info</a>
+                <a href="/rental">Rent  Book</a>
+                <a href = "/books/rental">Rented books</a>
+                <a href="/delete_books">Delete</a>
+                <a href="/displaysuggestion">Suggestions</a>
+            </div>
+            <div class="nav-right">
+                <a href="/logout">Logout</a>
+            </div>
+        </div>
+        
+    </nav>
+    
+</body>
+</html>

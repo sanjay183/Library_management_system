@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Display rentals</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='table.css')}}">
+</head>
+<body>
+    <a href="/student_home" class="back-button">Back</a>
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Book_id</th>
+                    <th>User_id</th>
+                    <th>Rental_date</th>
+                    <th>Due_date</th>
+                    <th>Fine</th>
+                    <th>Status</th>
+                    <th>fine</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for val,eligible in combined_data %}
+                <tr>
+                    <td>{{val[0]}}</td>
+                    <td>{{val[1]}}</td>
+                    <td>{{val[2]}}</td>
+                    <td>{{val[3]}}</td>
+                    <td>{{val[4]}}</td>
+                    <td>{{val[5]}}</td>
+                    <td>{{val[6]}}</td>
+                    <td>
+                    {% if eligible %}
+                        <form  action="/pay_fine/{{val[5]}}/{{val[1]}}/{{val[2]}}" method="POST">
+                        <button>pay fine</button>
+                        </form>
+                    {% endif %}</td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Display Suggestion</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='table.css')}}">
+</head>
+<body>
+    <a href="/admin_home" class="back-button">Back</a>
+    <center><h1>Suggestions</h1></center>
+    <table>
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>branch</th>
+                <th>suggestion</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for val in data %}
+              <tr>
+                <td>{{val[0]}}</td>
+                <td>{{val[1]}}</td>
+                <td>{{val[2]}}</td>
+              </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

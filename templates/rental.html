@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Book Rental</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='signup.css')}}">
+</head>
+<body>
+    <a href="/admin_home" class="back-button">Back</a>
+    <center><h1>Rent a Book</h1></center>
+    <form action="/rental" method="post">
+        <div class="align">
+            {% if success_message %}
+                 <h4>{{success_message}}</h4>
+            {% endif %}
+    
+            {% if error_message %}
+                 <h4>{{error_message}}</h4>
+            {% endif %}
+        </div>
+        <br>
+        <label for="id">student_id:</label>
+        <input type="text" id = "id" name="id" required>
+        <label for="book_id">book_id:</label>
+        <input type="text" id="book_id" name="book_id" required><br>
+        <label for="date">Due Date:</label>
+        <input type="date" id="date" name="date" required><br>
+        <center><input type="submit" value="submit"></center>
+    </form>
+</body>
+</html>

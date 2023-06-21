@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Return books</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='signup.css')}}">
+</head>
+<body>
+    <a href="/admin_home" class="back-button">Back</a>
+    <center><h1>Return Book</h1></center>
+    <form action="/return" method="POST">
+        <div class="align">
+            {% if success_message %}
+                <h4>{{success_message}}</h4>
+            {% endif %}
+    
+            {% if error_message %}
+                <h4>{{error_message}}</h4>
+            {% endif %}
+        </div>
+        <label for="id">id:</label>
+        <input type="text" id = "id" name="id" required>
+        <label for = "book_id">Book_id:</label>
+        <input type="text" id="book_id" name="book_id" required>
+        <center><input type="submit" value="check"></center>
+    </form>
+</body>
+</html>

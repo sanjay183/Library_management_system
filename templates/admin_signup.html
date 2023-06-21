@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Sign Up</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='signup.css')}}">
+</head>
+<body>
+    <center><h1>Admin Sign Up</h1></center>
+    
+    <form method="POST" action="/admin/signup">
+        <div class="align">
+            {% if error_message %}
+                <h4>{{ error_message }}</h4>
+            {% elif success_message %}
+                <h4>{{ success_message }}</h4>
+            {% endif %}
+        </div>
+        <label for="id">Id</label>
+        <input type="text" id="id" name="id" required><br>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br>
+        <label for="mail">mail-id:</label>
+        <input type="email" id = "mail" name="mail" required><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br>
+        <center><input type="submit" value="Sign Up"></center>
+        <p><b>Already have an account?</b><a href="/admin/login">Sign in</a></p>
+    </form>
+</body>
+</html>

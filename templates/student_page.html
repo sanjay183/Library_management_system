@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Student Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='page.css') }}">
+</head>
+<body>
+    <div class="align">
+        {% if error_message %}
+            <h4>{{ error_message }}</h4>
+        {% endif %}
+        {% if success_message %}
+            <h4>{{success_message}}</h4>
+        {% endif %}
+    </div>
+    <nav>
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href=''>Hello {{data}}</a>
+                <a href="/books/display">Display books</a>
+                <a href="/display/rentals">Pay Fine</a>
+                <a href="/addsuggestion">Add Suggestion</a>
+            </div>
+            <div class="nav-right">
+                <a href="/logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+</body>
+</html>

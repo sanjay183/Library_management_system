@@ -1,0 +1,60 @@
+/* home.css */
+
+/* Body styles */
+body {
+   
+    font-family: Arial, sans-serif;
+    background-image: url('../static/home.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container styles */
+.container {
+    text-align: center;
+    margin-top: 70px;
+    
+}
+
+/* Header styles */
+h1 {
+    color: black;
+
+    font-size:  300%;
+}
+
+h2 {
+    color: #666;
+}
+
+/* User options styles */
+.user-options {
+    display: flex;
+    justify-content: center;
+}
+
+.user-options a {
+    display: inline-block;
+    width: 100px;
+    margin: 200px 20px 10px;
+    padding:10px;
+    text-align: center;
+    color: #fff;
+    background-color: #428bca;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.user-options a:hover {
+    background-color: #3276b1;
+}
+
+/* Success message styles */
+.success-message {
+    margin-top: 20px;
+    text-align: center;
+    color: #4caf50;
+}

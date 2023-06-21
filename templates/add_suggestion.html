@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Add suggestion</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='signup.css')}}">
+</head>
+<body>
+    <a href="/student_home" class="back-button">Back</a>
+    <center> <h1>Add suggestion</h1></center>
+    <form action="/addsuggestion" method="POST">
+        <label for ="id ">id</label>
+        <input type="text" id="id" name="id" required>
+        <label for="section">branch</label>
+        <input type="text" id="section" name="section" required>
+        <label for="suggestion">suggestoin</label>
+        <input type="text" id="suggestion" name="suggestion" required>
+        <center><input type="submit" value="add"></center> 
+    </form>
+</body>
+</html>

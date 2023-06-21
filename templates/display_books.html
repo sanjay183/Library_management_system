@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Display books</title>
+    <link rel="stylesheet" href="{{url_for( 'static',filename = 'table.css' )}}">
+</head>
+<body>
+    {% if error_message %}
+        <h4>{{error_message}}</h4>
+    {% endif %}
+    <br>
+    <div class="align">
+    <form action="/search" method="GET">
+        <input type="text" id="search_query" name="search_query" placeholder="Search here">
+        <input type="submit" value="Search">
+    </form>
+
+   </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Book_id</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Genre</th>
+                <th>Total_copies</th>
+                <th>Available_copies</th>
+                <th>Rental_count</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for book in books %}
+            <tr>
+                <td>{{book[0]}}</td>
+                <td>{{book[1]}}</td>
+                <td>{{book[2]}}</td>
+                <td>{{book[3]}}</td>
+                <td>{{book[4]}}</td>
+                <td>{{book[5]}}</td>
+                <td>{{book[6]}}</td>
+                <td>{{book[7]}}</td>
+                <!-- <td>
+                    <form action="/books/delete/{{book[0]}}" method="post">
+                        <input type="submit" value="Delete">
+                    </form>
+                </td> -->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+</body>
+</html>

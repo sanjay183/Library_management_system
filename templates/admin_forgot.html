@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Forgot password</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='signup.css')}}">
+</head>
+<body>
+    <center><h1>Forgot Password</h1></center>
+    <form action = '/forgot_password/admin' method="POST">
+        <div class="align">
+            {% if error_message %}
+                <h4>{{ error_message }}</h4>
+            {% endif %}
+            {% if success_message %}
+                <h4>{{success_message}}</h4>
+            {% endif %}
+        </div>
+
+        <label for="id">Id</label>
+        <input type="text" id="id" name="id" required><br>
+        <label for = 'password'>password:</label>
+        <input type="password" id="password" name="password" required>
+        <label for = 'pass'>Confirm password:</label>
+        <input type="password" id="pass" name="pass" required>
+        <center><input type="submit" value="submit"></center>
+    </form>
+    
+</body>
+</html>

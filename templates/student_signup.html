@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Sign Up</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='signup.css')}}">
+</head>
+<body>
+    <center><h1>Student Sign Up</h1></center>
+    
+    <form method="POST" action="/student/signup">
+        <div class="align">
+        {% if error_message %}
+        <h4>{{ error_message }}</h4>
+        {% elif success_message %}
+        <h4>{{ success_message }}</h4>
+        {% endif %}
+        </div>
+        <label for="id">Id</label>
+        <input type="text" id="id" name="id" required><br>
+        <label for="first_name">First_name:</label>
+        <input type="text" id="first_name" name="first_name" required><br>
+        <label for="last_name">First_name:</label>
+        <input type="text" id="last_name" name="last_name" required><br>
+        <label for="gender">Gender:</label>
+        <select name="gender" id="gender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+        <label for="branch">Branch:</label>
+        <select name="branch" id="branch">
+            <option value="CSE">CSE</option>
+            <option value="IT">IT</option>
+            <option value="ECE">ECE</option>
+            <option value="MECH">MECH</option>
+            <option value="CIVIL">CIVIL</option>
+            <option value="MET">MET</option>
+            <option value="EEE">EEE</option>
+        </select>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+        <label for="phoneno">Phoneno:</label>
+        <input type="number" id="phoneno" name="phoneno" required><br>
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br>
+        <center><input type="submit" value="Sign Up"></center>
+        <p><b>Already have an account?</b><a href="/student/login">Sign in</a></p>
+    </form>
+</body>
+</html>
