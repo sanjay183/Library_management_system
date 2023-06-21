@@ -3,6 +3,7 @@ import mysql.connector
 from datetime import datetime,timedelta
 import stripe
 from mail import send_email
+import os
 app = Flask(__name__)
 app.secret_key = b'\x04qw\xa5)\xf02o\xb3\xc1\x11\x83\xab\x12=\x1f6\xba)\x0bO\x96S\xd6\x86\x1d\xbe\xa3\xcf\xae\xfa\xc1'
 # Establish a connection to the MySQL database
@@ -12,6 +13,20 @@ db = mysql.connector.connect(
     password="system",
     database="codegnan"
 )
+
+# db= os.environ['RDS_DB_NAME']
+# user=os.environ['RDS_USERNAME']
+# password=os.environ['RDS_PASSWORD']
+# host=os.environ['RDS_HOSTNAME']
+# port=os.environ['RDS_PORT']
+# with mysql.connector.connect(host=host,user=user,password=password,db=db) as conn:
+#     cursor=conn.cursor(buffered=True)
+#     cursor.execute('create table if not exists admin_users(id varchar(10) primary key,username varchar(15) ,mail varchar(50),password varchar(15))')
+#     cursor.execute('create table if not exists student_users(id varchar(10) primary key,first_name varchar(15) , last_name varchar(15) ,gender varchar(5),branch varcharar(5),email_id varchar(30) , phone_no varchar(12) ,password varchar(10))')
+#     cursor.execute('create table if not exists suggestions(id varchar(20), branch varchar(5), suggestion varchar(100))')
+#     cursor.execute('create table if not exists books(id varchar(10) primary key,title varchar(40),author varchar(30),genre varchar(15),copies int default 0,available_copies int default 0,rental_count int default 0,price int)')
+#     cursor.execute('create table if not exists rentals(id int auto_increment primary key,book_id varchar(40),user_id varchar(20),rental_date date ,due_date date ,fine decimal(8,2) default 0.00,status varchar(50) default "not_returned",foreign key (user_id) references student_users(id),foreign key (book_id) references books(id))')
+# db=mysql.connector.connect(host=host,user=user,password=password,db=db)
 
 @app.route("/")
 def index():
@@ -60,9 +75,6 @@ def admin_login():
         # Check if username and password are valid for admin users
         cursor.execute("SELECT * FROM admin_users WHERE id = %s AND password = %s", (user_id, password))
         admin_user = cursor.fetchone()
-        # print(admin_user[0])
-        # print(admin_user[1])
-        # print(admin_user[2])
         if admin_user:
             session['id'] = admin_user[0]
             session['role'] = 'admin'
@@ -254,7 +266,7 @@ def search():
     
     keyword = request.args.get('search_query','')
     cursor = db.cursor()
-    query = "SELECT * FROM books WHERE title LIKE %s OR author LIKE %s"
+    query = "SELECT * FROM books WHERE title LIKE %s OR author LIKE %s OR id LIKE %s "
     search_keyword = f"%{keyword}%"
     cursor.execute(query, (search_keyword, search_keyword))
     results = cursor.fetchall()
@@ -286,7 +298,6 @@ def rental():
             due_date = datetime.strptime(due_date, "%Y-%m-%d").date()
             difference = due_date -rental_date
             day_differ = difference.days
-            print(day_differ)
             fine = day_differ * book[7]
             cursor.execute("SELECT id FROM student_users WHERE id = %s", (student_id,))
             data =cursor.fetchone()
@@ -299,11 +310,8 @@ def rental():
                 cursor.execute("update books set rental_count = %s where id = %s",(rental_copies+1,book_id))
                 cursor.execute("select mail from admin_users where id =%s",(session['id'],)) 
                 sender_data= cursor.fetchone()[0]
-                print(sender_data)
                 cursor.execute("select email_id from student_users where id =%s",(student_id,))
                 receiver_data = cursor.fetchone()[0]
-                print(sender_data)
-                print(receiver_data)
                 db.commit()
 
                 success_message ="book issued"
@@ -335,7 +343,6 @@ def display_rentals():
     user_id = cursor.fetchone()[0]
     cursor.execute("select * from rentals where user_id =%s",(user_id,))
     data = cursor.fetchall()
-    print(data)
     for x in data:
         eligible_to_pay = False
         if x[5] >0 and x[6] == 'not_returned':
@@ -363,7 +370,6 @@ stripe.api_key = 'sk_test_51NK13RSAYoh2SIQsMB5FUgsPZ4fWxu68pmGfR5p77CIVc7Mo39QBF
 @app.route('/pay_fine/<float:fine>/<string:bookid>/<string:userid>', methods=['POST'])
 def pay_fine(fine,bookid,userid):
     # Retrieve the fine amount from the form or database
-    print(fine)
     fine_amount = float(fine)
 
     # Create a Checkout Session
@@ -446,5 +452,5 @@ def displaysuggestion():
     return render_template('display_suggestion.html',data=data)
 
 if __name__  == "__main__":
-    app.run(debug = True)
+    app.run()
 
