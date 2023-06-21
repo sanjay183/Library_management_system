@@ -59,13 +59,19 @@ tbody tr:hover {
 .align{
     padding-left: 75%;
 }
+.align-1{
+    padding-top: 140px;
+    color: grey;
+    text-align: center;
+    font-size: 120%;
+}
 
 .back-button {
     position: fixed;
     top: 10px;
     left: 10px;
-    padding: 10px;
-    background-color: #867be9;
+    padding: 5px;
+    background-color: gainsboro;
     border-radius: 5px;
     text-decoration: none;
     color: #333;

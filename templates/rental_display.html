@@ -32,5 +32,10 @@
                 {% endfor %}
             </tbody>
         </table>
+        <div class="align-1">
+            {% if error_message %}
+            <h1><b>{{error_message}}</b></h1>
+            {% endif %}
+        </div>
 </body>
 </html>

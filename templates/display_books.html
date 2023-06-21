@@ -5,9 +5,7 @@
     <link rel="stylesheet" href="{{url_for( 'static',filename = 'table.css' )}}">
 </head>
 <body>
-    {% if error_message %}
-        <h4>{{error_message}}</h4>
-    {% endif %}
+    </div>
     <br>
     <div class="align">
     <form action="/search" method="GET">
@@ -29,8 +27,6 @@
                 <th>Price</th>
             </tr>
         </thead>
-
-        <tbody>
             {% for book in books %}
             <tr>
                 <td>{{book[0]}}</td>
@@ -50,6 +46,10 @@
             {% endfor %}
         </tbody>
     </table>
-    
+    <div class="align-1">
+        {% if error_message %}
+        <h1><b>{{error_message}}</b></h1>
+        {% endif %}
+    </div>
 </body>
 </html>

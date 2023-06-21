@@ -20,7 +20,7 @@ body {
 
 /* Header styles */
 h1 {
-    color: black;
+    color: white;
 
     font-size:  300%;
 }
@@ -56,5 +56,5 @@ h2 {
 .success-message {
     margin-top: 20px;
     text-align: center;
-    color: #4caf50;
+    color: black;
 }

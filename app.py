@@ -8,19 +8,26 @@ app = Flask(__name__)
 app.secret_key = b'\x04qw\xa5)\xf02o\xb3\xc1\x11\x83\xab\x12=\x1f6\xba)\x0bO\x96S\xd6\x86\x1d\xbe\xa3\xcf\xae\xfa\xc1'
 #sample code
 
-db= os.environ['RDS_DB_NAME']
-user=os.environ['RDS_USERNAME']
-password=os.environ['RDS_PASSWORD']
-host=os.environ['RDS_HOSTNAME']
-port=os.environ['RDS_PORT']
-with mysql.connector.connect(host=host,user=user,password=password,db=db) as conn:
-    cursor=conn.cursor(buffered=True)
-    cursor.execute('create table if not exists admin_users(id varchar(10) primary key,username varchar(15) ,mail varchar(50),password varchar(15))')
-    cursor.execute('create table if not exists student_users(id varchar(10) primary key,first_name varchar(15) , last_name varchar(15) ,gender varchar(5),branch varchar(5),email_id varchar(30) , phone_no varchar(12) ,password varchar(10))')
-    cursor.execute('create table if not exists suggestions(id varchar(20), branch varchar(5), suggestion varchar(100))')
-    cursor.execute('create table if not exists books(id varchar(10) primary key,title varchar(40),author varchar(30),genre varchar(15),copies int default 0,available_copies int default 0,rental_count int default 0,price int)')
-    cursor.execute('create table if not exists rentals(id int auto_increment primary key,book_id varchar(40),user_id varchar(20),rental_date date ,due_date date ,fine decimal(8,2) default 0.00,status varchar(50) default "not_returned",foreign key (user_id) references student_users(id),foreign key (book_id) references books(id))')
-db=mysql.connector.connect(host=host,user=user,password=password,db=db)
+db = mysql.connector.connect(
+  host="localhost",
+  user="root",
+  password="system",
+  database="codegnan"
+)
+
+# db= os.environ['RDS_DB_NAME']
+# user=os.environ['RDS_USERNAME']
+# password=os.environ['RDS_PASSWORD']
+# host=os.environ['RDS_HOSTNAME']
+# port=os.environ['RDS_PORT']
+# with mysql.connector.connect(host=host,user=user,password=password,db=db) as conn:
+#     cursor=conn.cursor(buffered=True)
+#     cursor.execute('create table if not exists admin_users(id varchar(10) primary key,username varchar(15) ,mail varchar(50),password varchar(15))')
+#     cursor.execute('create table if not exists student_users(id varchar(10) primary key,first_name varchar(15) , last_name varchar(15) ,gender varchar(5),branch varchar(5),email_id varchar(30) , phone_no varchar(12) ,password varchar(10))')
+#     cursor.execute('create table if not exists suggestions(id varchar(20), branch varchar(5), suggestion varchar(100))')
+#     cursor.execute('create table if not exists books(id varchar(10) primary key,title varchar(40),author varchar(30),genre varchar(15),copies int default 0,available_copies int default 0,rental_count int default 0,price int)')
+#     cursor.execute('create table if not exists rentals(id int auto_increment primary key,book_id varchar(40),user_id varchar(20),rental_date date ,due_date date ,fine decimal(8,2) default 0.00,status varchar(50) default "not_returned",foreign key (user_id) references student_users(id),foreign key (book_id) references books(id))')
+# db=mysql.connector.connect(host=host,user=user,password=password,db=db)
 
 @app.route("/")
 def index():
@@ -42,7 +49,10 @@ def admin_signup():
         username = request.form['username']
         mail = request.form['mail']
         password = request.form['password']
-        
+        print(len(password))
+        if len(password) < 8 :
+            error_message="Password requirement not satisfied"
+            return render_template('admin_signup.html',error_message=error_message)
         cursor = db.cursor()
         
         # Create a new admin user
@@ -91,7 +101,9 @@ def student_signup():
         email = request.form['email']
         phoneno = request.form['phoneno']
         password = request.form['password']
-        
+        if len(password) < 8 :
+            error_message="Password requirement not satisfied"
+            return render_template('student_signup.html',error_message=error_message)       
         cursor = db.cursor()
         
         # Create a new student user
@@ -138,17 +150,22 @@ def sutdent_password():
         new_pass = request.form['password']
         pass_again = request.form['pass']
         if new_pass == pass_again:
-            cursor = db.cursor()
-            cursor.execute('select * from student_users where id =%s',(id,))
-            data = cursor.fetchone()
-            if data is not None:
-                cursor.execute('update student_users set password=%s where id =%s',(new_pass,id))
-                db.commit()
-                success_message= 'student password changed'
-                return render_template('student_login.html',success_message= success_message)
-            else:
-                error_message = 'student id not found'
+            print(len(new_pass))
+            if len(new_pass) < 8 :
+                error_message="Password requirement not satisfied"
                 return render_template('forgot_password.html',error_message=error_message)
+            else:
+                cursor = db.cursor()
+                cursor.execute('select * from student_users where id =%s',(id,))
+                data = cursor.fetchone()
+                if data is not None:
+                    cursor.execute('update student_users set password=%s where id =%s',(new_pass,id))
+                    db.commit()
+                    success_message= 'student password changed'
+                    return render_template('student_login.html',success_message= success_message)
+                else:
+                    error_message = 'student id not found'
+                    return render_template('forgot_password.html',error_message=error_message)
         else:
             error_message = 'password not matched'
             return render_template('forgot_password.html',error_message=error_message)
@@ -164,17 +181,21 @@ def admin_password():
         new_pass = request.form['password']
         pass_again = request.form['pass']
         if new_pass == pass_again:
-            cursor = db.cursor()
-            cursor.execute('select * from admin_users where id =%s',(id,))
-            data = cursor.fetchone()
-            if data is not None:
-                cursor.execute('update admin_users set password=%s where id =%s',(new_pass,id))
-                db.commit()
-                success_message= 'admin password changed'
-                return render_template('admin_login.html',success_message= success_message)
-            else:
-                error_message = 'admin id not found'
+            if len(new_pass) < 8 :
+                error_message="Password requirement not satisfied"
                 return render_template('admin_forgot.html',error_message=error_message)
+            else:
+                cursor = db.cursor()
+                cursor.execute('select * from admin_users where id =%s',(id,))
+                data = cursor.fetchone()
+                if data is not None:
+                    cursor.execute('update admin_users set password=%s where id =%s',(new_pass,id))
+                    db.commit()
+                    success_message= 'admin password changed'
+                    return render_template('admin_login.html',success_message= success_message)
+                else:
+                    error_message = 'admin id not found'
+                    return render_template('admin_forgot.html',error_message=error_message)
         else:
             error_message = 'password not matched'
             return render_template('admin_forgot.html',error_message=error_message)
@@ -232,9 +253,15 @@ def add_book():
 def display_book():
 
     cursor = db.cursor()
-    cursor.execute('select * from books')
+    cursor.execute('SELECT * FROM books')
     data = cursor.fetchall()
-    return render_template('display_books.html',books=data)
+    cursor.close()
+    print(len(data))
+    if len(data) == 0:
+        error_message = "No data found"
+        return render_template('display_books.html', error_message=error_message)
+    else:
+        return render_template('display_books.html', books=data)
 
 #admin page
 @app.route('/delete_books',methods=['GET','POST'])
@@ -247,6 +274,7 @@ def delete_books():
         data = cursor.fetchone()
         if data is not None:
             cursor.execute('delete from books where id =%s',(book_id,))
+            db.commit()
             success_message = "deleted successfully"
             return render_template('delete_books.html',success_message=success_message)
         else:
@@ -260,9 +288,9 @@ def search():
     
     keyword = request.args.get('search_query','')
     cursor = db.cursor()
-    query = "SELECT * FROM books WHERE title LIKE %s OR author LIKE %s OR id LIKE %s "
+    query = "SELECT * FROM books WHERE title LIKE %s OR author LIKE %s OR id like %s"
     search_keyword = f"%{keyword}%"
-    cursor.execute(query, (search_keyword, search_keyword))
+    cursor.execute(query, (search_keyword, search_keyword,search_keyword))
     results = cursor.fetchall()
     cursor.close()
     return render_template('display_books.html', books=results)
@@ -337,17 +365,21 @@ def display_rentals():
     user_id = cursor.fetchone()[0]
     cursor.execute("select * from rentals where user_id =%s",(user_id,))
     data = cursor.fetchall()
-    for x in data:
-        eligible_to_pay = False
-        if x[5] >0 and x[6] == 'not_returned':
-            eligible_to_pay = True
-            payment_eligibility.append(eligible_to_pay)
-        else:
-            payment_eligibility.append(eligible_to_pay)
-    db.commit()
+    if len(data) == 0:
+        error_message = "No data found"
+        return render_template('display_rental.html', error_message=error_message)
+    else:
+        for x in data:
+            eligible_to_pay = False
+            if x[5] >0 and x[6] == 'not_returned':
+                eligible_to_pay = True
+                payment_eligibility.append(eligible_to_pay)
+            else:
+                payment_eligibility.append(eligible_to_pay)
+        db.commit()
     
-    combined_data = zip(data,payment_eligibility)
-    return render_template('display_rental.html',combined_data = combined_data)
+        combined_data = zip(data,payment_eligibility)
+        return render_template('display_rental.html',combined_data = combined_data)
 
 #admin page
 @app.route('/books/rental',methods=['GET'])
@@ -356,6 +388,9 @@ def rental_books():
     cursor.execute("select * from rentals")
     data = cursor.fetchall()
     db.commit()
+    if len(data) == 0:
+        error_message = "No data found"
+        return render_template('rental_display.html', error_message=error_message)
     return render_template('rental_display.html',data=data)
 
 stripe.api_key = 'sk_test_51NK13RSAYoh2SIQsMB5FUgsPZ4fWxu68pmGfR5p77CIVc7Mo39QBF4iwRFBGbhCce9mIRpBHeFLubnoa5brw4nwz00RvrTVkDV'
@@ -420,7 +455,8 @@ def payment_success(fine,bookid,userid):
 @app.route('/payment_cancel')
 def payment_cancel():
     # Handle payment cancellation
-    return render_template('payment_cancel.html')
+    error_message = "payment cancelled"
+    return render_template('student_page.html',error_message=error_message)
 
 #student page
 @app.route('/addsuggestion',methods=['GET','POST'])
@@ -443,6 +479,9 @@ def displaysuggestion():
     cursor = db.cursor()
     cursor.execute('select * from suggestions')
     data = cursor.fetchall()
+    if len(data) == 0:
+        error_message = "No data found"
+        return render_template('display_suggestion.html', error_message=error_message)
     return render_template('display_suggestion.html',data=data)
 
 if __name__  == "__main__":
