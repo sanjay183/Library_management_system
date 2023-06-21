@@ -7,26 +7,26 @@ import os
 app = Flask(__name__)
 app.secret_key = b'\x04qw\xa5)\xf02o\xb3\xc1\x11\x83\xab\x12=\x1f6\xba)\x0bO\x96S\xd6\x86\x1d\xbe\xa3\xcf\xae\xfa\xc1'
 # Establish a connection to the MySQL database
-db = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="system",
-    database="codegnan"
-)
+# db = mysql.connector.connect(
+#     host="localhost",
+#     user="root",
+#     password="system",
+#     database="codegnan"
+# )
 
-# db= os.environ['RDS_DB_NAME']
-# user=os.environ['RDS_USERNAME']
-# password=os.environ['RDS_PASSWORD']
-# host=os.environ['RDS_HOSTNAME']
-# port=os.environ['RDS_PORT']
-# with mysql.connector.connect(host=host,user=user,password=password,db=db) as conn:
-#     cursor=conn.cursor(buffered=True)
-#     cursor.execute('create table if not exists admin_users(id varchar(10) primary key,username varchar(15) ,mail varchar(50),password varchar(15))')
-#     cursor.execute('create table if not exists student_users(id varchar(10) primary key,first_name varchar(15) , last_name varchar(15) ,gender varchar(5),branch varcharar(5),email_id varchar(30) , phone_no varchar(12) ,password varchar(10))')
-#     cursor.execute('create table if not exists suggestions(id varchar(20), branch varchar(5), suggestion varchar(100))')
-#     cursor.execute('create table if not exists books(id varchar(10) primary key,title varchar(40),author varchar(30),genre varchar(15),copies int default 0,available_copies int default 0,rental_count int default 0,price int)')
-#     cursor.execute('create table if not exists rentals(id int auto_increment primary key,book_id varchar(40),user_id varchar(20),rental_date date ,due_date date ,fine decimal(8,2) default 0.00,status varchar(50) default "not_returned",foreign key (user_id) references student_users(id),foreign key (book_id) references books(id))')
-# db=mysql.connector.connect(host=host,user=user,password=password,db=db)
+db= os.environ['RDS_DB_NAME']
+user=os.environ['RDS_USERNAME']
+password=os.environ['RDS_PASSWORD']
+host=os.environ['RDS_HOSTNAME']
+port=os.environ['RDS_PORT']
+with mysql.connector.connect(host=host,user=user,password=password,db=db) as conn:
+    cursor=conn.cursor(buffered=True)
+    cursor.execute('create table if not exists admin_users(id varchar(10) primary key,username varchar(15) ,mail varchar(50),password varchar(15))')
+    cursor.execute('create table if not exists student_users(id varchar(10) primary key,first_name varchar(15) , last_name varchar(15) ,gender varchar(5),branch varcharar(5),email_id varchar(30) , phone_no varchar(12) ,password varchar(10))')
+    cursor.execute('create table if not exists suggestions(id varchar(20), branch varchar(5), suggestion varchar(100))')
+    cursor.execute('create table if not exists books(id varchar(10) primary key,title varchar(40),author varchar(30),genre varchar(15),copies int default 0,available_copies int default 0,rental_count int default 0,price int)')
+    cursor.execute('create table if not exists rentals(id int auto_increment primary key,book_id varchar(40),user_id varchar(20),rental_date date ,due_date date ,fine decimal(8,2) default 0.00,status varchar(50) default "not_returned",foreign key (user_id) references student_users(id),foreign key (book_id) references books(id))')
+db=mysql.connector.connect(host=host,user=user,password=password,db=db)
 
 @app.route("/")
 def index():
