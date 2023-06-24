@@ -477,13 +477,13 @@ def payment_cancel():
 def addsuggestions():
     if request.method == 'POST':
         id = request.form['id']
-        book_id = request.fom['book_id']
+        book_id = request.form['book_id']
         branch = request.form['section']
         suggestion = request.form['suggestion']
         cursor = db.cursor()
         cursor.execute("insert into suggestions (id,book_id,branch,suggestion) values (%s,%s,%s,%s)",(id,book_id,branch,suggestion))
         db.commit()
-        return redirect('/')
+        return render_template('student_page.html')
     return render_template('add_suggestion.html')
 
 
