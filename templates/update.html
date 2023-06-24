@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="{{url_for('static',filename='signup.css')}}">
 </head>
 <body>
-    <center><h1>Add Book</h1></center>
+    <center><h1>Update Book</h1></center>
     <a href="/admin_home" class="back-button">Back</a>
     <form method="POST" action="/modify">
         <div class="align">
@@ -23,8 +23,6 @@
         <input type="text" id="author" name="author" required><br>
         <label for="genre">Genre:</label>
         <input type="text" id="genre" name="genre" required><br>
-        <label for="copies">Copies:</label>
-        <input type="number" id="copies" name="copies" required><br>
         <label for="Price">Price:</label>
         <input type="number" id="price" name="price" required><br>
         <center><input type="submit" value="Update"></center>

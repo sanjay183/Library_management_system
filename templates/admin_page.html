@@ -5,6 +5,14 @@
     <link rel="stylesheet" href="{{url_for('static',filename='page.css')}}">
 </head>
 <body>
+    <div class="align">
+        {% if error_message %}
+            <h4>{{ error_message }}</h4>
+        {% endif %}
+        {% if success_message %}
+            <h4>{{success_message}}</h4>
+        {% endif %}
+    </div>
     <nav>
         <div class="nav-container">
             <div class="nav-left">
@@ -14,6 +22,7 @@
                 <a href="/rental">Rent  Book</a>
                 <a href = "/books/rental">Rented books</a>
                 <a href="/delete_books">Delete Book</a>
+                <a href="/modify">Update</a>
                 <a href="/displaysuggestion">Suggestions</a>
             </div>
             <div class="nav-right">
