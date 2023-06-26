@@ -7,6 +7,13 @@ import os
 app = Flask(__name__)
 app.secret_key = b'\x04qw\xa5)\xf02o\xb3\xc1\x11\x83\xab\x12=\x1f6\xba)\x0bO\x96S\xd6\x86\x1d\xbe\xa3\xcf\xae\xfa\xc1'
 
+# db = mysql.connector.connect(
+#   host="localhost",
+#   user="root",
+#   password="system",
+#   database="codegnan"
+# )
+
 db= os.environ['RDS_DB_NAME']
 user=os.environ['RDS_USERNAME']
 password=os.environ['RDS_PASSWORD']
